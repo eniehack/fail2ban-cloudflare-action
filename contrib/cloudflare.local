@@ -1,0 +1,27 @@
+#
+# Cloudflare WAF Custom Rule Action for fail2ban
+# /etc/fail2ban/action.d/cloudflare.local
+#
+
+[Definition]
+
+# IP管理スクリプトのパス
+ip_manager = /usr/local/bin/ipmglist.py
+
+# IP管理ファイルのパス
+ip_file = /var/lib/fail2ban/cloudflare_block_list
+
+# BAN時：IPをブロックリストに追加
+actionban = <ip_manager> --file <ip_file> add <ip>
+
+# UNBAN時：IPをブロックリストから削除
+actionunban = <ip_manager> --file <ip_file> remove <ip>
+
+# 開始時：何もしない（ファイルが存在することを確認）
+actionstart = test -f <ip_file> || touch <ip_file>
+
+# 停止時：何もしない
+actionstop =
+
+# チェック：スクリプトの存在確認
+actioncheck = test -x <ip_manager>

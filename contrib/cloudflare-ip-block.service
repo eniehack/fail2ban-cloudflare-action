@@ -1,0 +1,19 @@
+# /etc/systemd/system/cloudflare-ip-block.service
+[Unit]
+Description=Update Cloudflare WAF Rules with blocked IPs
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/usr/local/bin
+Environment=CF_API_TOKEN=
+Environment=CF_ZONE_ID=
+Environment=CF_RULESET_ID=
+Environment=CF_RULE_ID=
+ExecStart=/bin/python3 /usr/local/bin/deploy_cf_rule_systemd.py --ip-file /var/lib/fail2ban/cloudflare_block_list
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+RemainAfterExit=no
