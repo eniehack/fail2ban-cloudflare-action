@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -13,9 +14,9 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-func ReadIPsFromStdin() ([]net.IP, error) {
+func ReadIPsFromReader(f io.Reader) ([]net.IP, error) {
 	var ips []net.IP
-	scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
 		ip := net.ParseIP(line)
@@ -38,21 +39,7 @@ func ReadIPsFromFile(path string) ([]net.IP, error) {
 	}
 	defer file.Close()
 
-	var ips []net.IP
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		ip := net.ParseIP(line)
-		if ip != nil {
-			ips = append(ips, ip)
-		}
-	}
-
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
-
-	return ips, nil
+	return ReadIPsFromReader(file)
 }
 
 func main() {
@@ -78,7 +65,7 @@ func main() {
 			var ips []net.IP
 			if c.Bool("stdin") {
 				var err error
-				ips, err = ReadIPsFromStdin()
+				ips, err = ReadIPsFromReader(os.Stdin)
 				if err != nil {
 					return err
 				}
