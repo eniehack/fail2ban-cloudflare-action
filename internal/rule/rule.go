@@ -22,19 +22,3 @@ func GenerateRule(targetIp []net.IP) string {
 	fmt.Fprintf(rule, ")")
 	return rule.String()
 }
-
-type CloudflareAPICustomRuleRequestPayload struct {
-	Action     string `json:"action"`
-	Expression string `json:"expression"`
-	Name       string `json:"Description"`
-	Enabled    bool   `json:"enabled"`
-}
-
-func MakeRequestPayload(name string, expression string) *CloudflareAPICustomRuleRequestPayload {
-	return &CloudflareAPICustomRuleRequestPayload{
-		Action:     "block",
-		Expression: expression,
-		Name:       name,
-		Enabled:    true,
-	}
-}
