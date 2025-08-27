@@ -12,4 +12,5 @@ fail2banのactionとしてcloudflare custom ruleを操作するためのスク�
 ### depends
 
 - python3
-- requests (python library)
+- requests (pythonのライブラリ。deploy_cf_rule.py または deploy_cf_rule_systemd.pyを利用する際に必要)
+- inotifywait (dnf、aptのリポジトリではinotify-toolsパッケージに同梱されています。`contrib/iplistwatch.sh`を利用する場合には必要)

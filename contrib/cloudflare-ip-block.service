@@ -11,7 +11,8 @@ Environment=CF_API_TOKEN=
 Environment=CF_ZONE_ID=
 Environment=CF_RULESET_ID=
 Environment=CF_RULE_ID=
-ExecStart=/bin/python3 /usr/local/bin/deploy_cf_rule_systemd.py --ip-file /var/lib/fail2ban/cloudflare_block_list
+Environment=IP_FILE=
+ExecStart=iplistwatch.sh
 NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
