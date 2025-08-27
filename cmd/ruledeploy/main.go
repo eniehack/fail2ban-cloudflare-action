@@ -108,7 +108,7 @@ func main() {
 			if err != nil {
 				return err
 			}
-			fmt.Println(resp.JSON)
+			fmt.Fprintln(os.Stderr, resp.JSON)
 			return nil
 		},
 	}
