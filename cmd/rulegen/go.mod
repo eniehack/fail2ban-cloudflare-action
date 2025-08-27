@@ -1,4 +1,4 @@
-module github.com/eniehack/fail2ban-cloudflare-action/cmd/ruledeploy
+module github.com/eniehack/fail2ban-cloudflare-action/cmd/rulegen
 
 go 1.23.2
 
