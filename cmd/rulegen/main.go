@@ -65,11 +65,13 @@ func main() {
 				Value: false,
 			},
 		},
+		Arguments: []cli.Argument{
+			&cli.StringArg{
+				Name: "file",
+			},
+		},
 		Action: func(ctx context.Context, c *cli.Command) error {
-			filePath := ""
-			if 0 < c.Args().Len() {
-				filePath = c.Args().Get(0)
-			}
+			filePath := c.StringArg("file")
 			if !c.Bool("stdin") && len(filePath) == 0 {
 				return errors.New("must be stdin option to true, or specify file path")
 			}
